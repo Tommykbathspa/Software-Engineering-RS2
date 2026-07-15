@@ -1,24 +1,59 @@
 #pragma once
-
 #include "ofMain.h"
+#include "Button.h"
+#include "PasswordEntry.h"
 
-class ofApp : public ofBaseApp{
 
-	public:
-		void setup();
-		void update();
-		void draw();
+class ofApp : public ofBaseApp {
+public:
+    void setup();
+    void update();
+    void draw();
+    void keyPressed(int key);
+    void mousePressed(int x, int y, int button);
 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
+    void buttonEvent(string& label);
+
+    // login / register screen
+    string Email, Password, RePassword;
+    bool emailInput, passwordInput, rePasswordInput;
+    bool createAccountScreen;
+    bool mainScreen;
+
+    ofRectangle cardBG;
+    ofRectangle emailBox, passwordBox, rePasswordBox, caEmailBox, caPasswordBox, caRePasswordBox;
+    ofTrueTypeFont titleFont, headerFont, labelFont, smallFont;
+
+    Button signInBtn, signUpBtn;
+    Button registerBtn, loginAccountBtn;
+
+    // main screen
+    string searchString;
+    bool searchInput;
+    ofRectangle topBar, headerBar, searchBox, addNewBox;
+
+    bool popupOpen;
+    string popupName, popupUser, popupPass;
+    bool popupNameInput, popupUserInput, popupPassInput;
+    ofRectangle popupBG, popupNameBox, popupUserBox, popupPassBox;
+    Button popupConfirmBtn, popupCancelBtn;
+
+    bool editPopupOpen;
+    int editingRow;
+    string editName, editUser, editPass;
+    bool editNameInput, editUserInput, editPassInput;
+    ofRectangle editPopupBG, editNameBox, editUserBox, editPassBox;
+    Button editConfirmBtn, editCancelBtn;
+
+    vector<PasswordEntry> entries;
+    vector<PasswordEntry> filteredEntries;
+    vector<bool> passwordVisible;
+
+    float scrollOffset;
+    float rowHeight;
+    Button logoutBtn;
+
+    void drawLoginScreen();
+    void drawMainScreen();
+    void updateFilter();
 };
