@@ -113,6 +113,8 @@ void ofApp::setup() {
     editCancelBtn.setBorderColour(ofColor(255, 64, 160));
     editCancelBtn.toggle(false);
 
+    scrollBar.setup(1245, 155, 35, 565);
+
     ofAddListener(Button::buttonEvent, this, &ofApp::buttonEvent);
 }
 
@@ -149,7 +151,7 @@ void ofApp::drawLoginScreen() {
 
     // title
     ofSetColor(255);
-    titleFont.drawString("RS2 Password Manager", 60, 85);
+    titleFont.drawString("RS2 Password Manager", 135, 75);
 
     // card
     ofSetColor(235, 235, 235);
@@ -157,7 +159,7 @@ void ofApp::drawLoginScreen() {
 
     if (createAccountScreen == false) {
         ofSetColor(60, 60, 60);
-        headerFont.drawString("Login Account", 390, 160);
+        headerFont.drawString("Login Account", 460, 145);
 
         // email label + underline field
         ofSetColor(60, 60, 60);
@@ -180,7 +182,7 @@ void ofApp::drawLoginScreen() {
     }
     else {
         ofSetColor(60, 60, 60);
-        headerFont.drawString("Create Account", 370, 145);
+        headerFont.drawString("Create Account", 445, 145);
 
         // email
         ofSetColor(60, 60, 60);
@@ -265,7 +267,7 @@ void ofApp::drawMainScreen() {
 
     // title
     ofSetColor(255);
-    headerFont.drawString("Password Manager", 570, 65);
+    headerFont.drawString("Password Manager", 585, 65);
 
     // header bar
     ofSetColor(220, 220, 220);
@@ -335,6 +337,10 @@ void ofApp::drawMainScreen() {
     }
 
     ofPopMatrix();
+
+    float contentH = max((float)filteredEntries.size() * rowHeight, 1.0f);
+    scrollBar.draw(contentH, 565, scrollOffset);
+
 
 
     // add popup
@@ -514,6 +520,9 @@ void ofApp::mousePressed(int x, int y, int button) {
         return;
     }
 
+    // scrollbar
+    float contentH = filteredEntries.size() * rowHeight;
+    scrollBar.mousePressed(x, y, contentH, 565, scrollOffset);
 
     // row interactions
     float adjustedY = y + scrollOffset - 155;
@@ -548,7 +557,26 @@ void ofApp::mousePressed(int x, int y, int button) {
     }
 }
 
+//--------------------------------------------------------------
+void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
+    if (mainScreen == false) return;
+    float contentH = filteredEntries.size() * rowHeight;
+    scrollOffset -= scrollY * 20;
+    scrollOffset = max(0.0f, min(scrollOffset, max(0.0f, contentH - 565)));
+}
 
+//--------------------------------------------------------------
+void ofApp::mouseDragged(int x, int y, int button) {
+    if (mainScreen == false) return;
+    float contentH = filteredEntries.size() * rowHeight;
+    float newOffset = scrollBar.mouseDragged(x, y, contentH, 565);
+    if (newOffset >= 0) scrollOffset = newOffset;
+}
+
+//--------------------------------------------------------------
+void ofApp::mouseReleased(int x, int y, int button) {
+    scrollBar.mouseReleased();
+}
 
 //--------------------------------------------------------------
 void ofApp::buttonEvent(string& label) {

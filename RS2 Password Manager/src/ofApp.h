@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "Button.h"
 #include "PasswordEntry.h"
+#include "ScrollBar.h"
 
 
 class ofApp : public ofBaseApp {
@@ -11,7 +12,9 @@ public:
     void draw();
     void keyPressed(int key);
     void mousePressed(int x, int y, int button);
-
+    void mouseScrolled(int x, int y, float scrollX, float scrollY);
+    void mouseDragged(int x, int y, int button);
+    void mouseReleased(int x, int y, int button);
     void buttonEvent(string& label);
 
     // login / register screen
@@ -51,6 +54,7 @@ public:
 
     float scrollOffset;
     float rowHeight;
+    ScrollBar scrollBar;
     Button logoutBtn;
 
     void drawLoginScreen();
