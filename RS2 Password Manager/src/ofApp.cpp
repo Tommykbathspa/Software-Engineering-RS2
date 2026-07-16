@@ -2,6 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+
+    database.open("passwords.db");
+
+    entries = database.getEntries();
+
+    updateFilter();
+
     emailInput = false;
     passwordInput = false;
     rePasswordInput = false;
@@ -624,8 +631,12 @@ void ofApp::buttonEvent(string& label) {
             newEntry.appName = popupName;
             newEntry.username = popupUser == "Username" ? "" : popupUser;
             newEntry.password = popupPass == "Password" ? "" : popupPass;
-            entries.push_back(newEntry);
-            passwordVisible.push_back(false);
+            database.addEntry(newEntry);
+
+            entries = database.getEntries();
+
+            passwordVisible.assign(entries.size(), false);
+
             updateFilter();
             popupName = "App/Website Name"; popupUser = "Username"; popupPass = "Password";
         }

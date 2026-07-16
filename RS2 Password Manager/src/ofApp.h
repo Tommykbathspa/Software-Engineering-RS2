@@ -3,6 +3,8 @@
 #include "Button.h"
 #include "PasswordEntry.h"
 #include "ScrollBar.h"
+#include "Database.h"
+
 
 
 class ofApp : public ofBaseApp {
@@ -16,6 +18,8 @@ public:
     void mouseDragged(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
     void buttonEvent(string& label);
+
+    Database database;
 
     // login / register screen
     string Email, Password, RePassword;
