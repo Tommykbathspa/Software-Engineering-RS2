@@ -1,13 +1,12 @@
+#include <iostream>
 #include "ofApp.h"
+#include "sqlite3.h"
+using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
 
     database.open("passwords.db");
-
-    entries = database.getEntries();
-
-    updateFilter();
 
     emailInput = false;
     passwordInput = false;
@@ -17,6 +16,9 @@ void ofApp::setup() {
     Email = "";
     Password = "";
     RePassword = "";
+    loginError = "";
+    registerError = "";
+    addError = "";
     searchString = "Search";
     searchInput = false;
     popupOpen = false;
@@ -38,7 +40,6 @@ void ofApp::setup() {
     headerFont.load("Bungee-Regular.ttf", 32);
     labelFont.load("Antarctican_Headline_Medium.otf", 31);
     smallFont.load("Antarctican_Headline_Book.otf", 25);
-
 
     // card panel
     cardBG.set(130, 95, 1020, 565);
@@ -139,12 +140,29 @@ void ofApp::update() {
     if (popupPassInput == false && popupPass == "") {
         popupPass = "Password";
     }
+    if (!createAccountScreen)
+    {
+        bool canLogin =
+            !Email.empty() &&
+            !Password.empty();
+
+    }
+    if (createAccountScreen)
+    {
+        bool canRegister =
+            !Email.empty() &&
+            !Password.empty() &&
+            !RePassword.empty() &&
+            Password == RePassword;
+
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
     if (mainScreen == false) {
         drawLoginScreen();
+
     }
     else {
         drawMainScreen();
@@ -186,6 +204,12 @@ void ofApp::drawLoginScreen() {
         ofSetColor(255, 64, 160);
         ofSetLineWidth(2);
         ofDrawLine(255, 481, 945, 481);
+        // Login error message
+        if (!loginError.empty())
+        {
+            ofSetColor(ofColor::red);
+            smallFont.drawString(loginError, 255, 520);
+        }
     }
     else {
         ofSetColor(60, 60, 60);
@@ -219,7 +243,15 @@ void ofApp::drawLoginScreen() {
         ofSetColor(255, 64, 160);
         ofSetLineWidth(2);
         ofDrawLine(255, 553, 945, 553);
+
+        // Register error message
+        if (!registerError.empty())
+        {
+            ofSetColor(ofColor::red);
+            smallFont.drawString(registerError, 255, 590);
+        }
     }
+
 }
 
 //--------------------------------------------------------------
@@ -348,8 +380,6 @@ void ofApp::drawMainScreen() {
     float contentH = max((float)filteredEntries.size() * rowHeight, 1.0f);
     scrollBar.draw(contentH, 565, scrollOffset);
 
-
-
     // add popup
     if (popupOpen == true) {
         ofSetColor(0, 0, 0, 120);
@@ -359,7 +389,7 @@ void ofApp::drawMainScreen() {
         ofDrawRectRounded(popupBG, 12);
 
         ofSetColor(51, 51, 51);
-        labelFont.drawString("Add New Entry", 520, 258);
+        labelFont.drawString("Add New Entry", 540, 258);
 
         // name field
         ofSetColor(popupNameInput ? 50 : 160, popupNameInput ? 50 : 160, popupNameInput ? 50 : 160);
@@ -408,11 +438,18 @@ void ofApp::drawMainScreen() {
         ofSetColor(255, 64, 160);
         ofDrawLine(430, 455, 850, 455);
     }
+    if (!addError.empty())
+    {
+        ofSetColor(ofColor::red);
+        smallFont.drawString(addError, 520, 560);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
     if (mainScreen == false) {
+        registerError = "";
+        addError = "";
         if (key == OF_KEY_BACKSPACE) {
             if (emailInput && Email.size() > 0) Email.pop_back();
             else if (passwordInput && Password.size() > 0) Password.pop_back();
@@ -425,6 +462,7 @@ void ofApp::keyPressed(int key) {
         }
     }
     else {
+        loginError = "";
         if (key == OF_KEY_BACKSPACE) {
             if (searchInput && searchString.size() > 0) { searchString.pop_back(); updateFilter(); }
             else if (popupNameInput && popupName.size() > 0) popupName.pop_back();
@@ -449,25 +487,45 @@ void ofApp::keyPressed(int key) {
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
     if (mainScreen == false) {
-        if (emailBox.inside(x, y) && emailInput == false) {
-            emailInput = true;
-            passwordInput = false;
-            rePasswordInput = false;
-        }
-        else if (passwordBox.inside(x, y) && passwordInput == false) {
-            passwordInput = true;
-            emailInput = false;
-            rePasswordInput = false;
-        }
-        else if (rePasswordBox.inside(x, y) && rePasswordInput == false && createAccountScreen == true) {
-            rePasswordInput = true;
-            emailInput = false;
-            passwordInput = false;
+        if (createAccountScreen == false) {
+            // login screen
+            if (emailBox.inside(x, y) && emailInput == false) {
+                emailInput = true;
+                passwordInput = false;
+                rePasswordInput = false;
+            }
+            else if (passwordBox.inside(x, y) && passwordInput == false) {
+                passwordInput = true;
+                emailInput = false;
+                rePasswordInput = false;
+            }
+            else {
+                emailInput = false;
+                passwordInput = false;
+            }
         }
         else {
-            emailInput = false;
-            passwordInput = false;
-            rePasswordInput = false;
+            // create account screen
+            if (caEmailBox.inside(x, y) && emailInput == false) {
+                emailInput = true;
+                passwordInput = false;
+                rePasswordInput = false;
+            }
+            else if (caPasswordBox.inside(x, y) && passwordInput == false) {
+                passwordInput = true;
+                emailInput = false;
+                rePasswordInput = false;
+            }
+            else if (caRePasswordBox.inside(x, y) && rePasswordInput == false) {
+                rePasswordInput = true;
+                emailInput = false;
+                passwordInput = false;
+            }
+            else {
+                emailInput = false;
+                passwordInput = false;
+                rePasswordInput = false;
+            }
         }
         return;
     }
@@ -587,36 +645,143 @@ void ofApp::mouseReleased(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::buttonEvent(string& label) {
-    if (label == "Sign Up") {
-        createAccountScreen = true;
-        emailInput = false; passwordInput = false; rePasswordInput = false;
-        Email = ""; Password = ""; RePassword = "";
-        signInBtn.toggle(false); signUpBtn.toggle(false);
-        registerBtn.toggle(true); loginAccountBtn.toggle(true);
+    if (label == "Sign Up")
+    {
+        // Create account screen -> actually register
+        if (createAccountScreen)
+        {
+            registerError = "";
+
+            if (Email.empty() || Password.empty() || RePassword.empty())
+            {
+                registerError = "Please fill in every field.";
+                return;
+            }
+
+            if (Password != RePassword)
+            {
+                registerError = "Passwords do not match.";
+                return;
+            }
+
+            if (database.userExists(Email))
+            {
+                registerError = "Account already exists.";
+                return;
+            }
+
+            if (database.registerUser(Email, Password))
+            {
+                cout << "Account created!" << endl;
+
+                // Log the newly created account in
+                if (database.loginUser(Email, Password))
+                {
+                    cout << "Current user ID: "<< database.getCurrentUserID()<< endl;
+
+                    mainScreen = true;
+                    signUpBtn.toggle(false);
+                    signInBtn.toggle(false);
+                    loginAccountBtn.toggle(false);
+                    registerBtn.toggle(false);
+                    logoutBtn.toggle(true);
+
+                    entries = database.getEntries(database.getCurrentUserID());
+
+                    passwordVisible.assign(entries.size(), false);
+
+                    updateFilter();
+
+                    registerError = "";
+                }
+            }
+            else
+            {
+                registerError = "Could not create account.";
+            }
+        }
+        else
+        {
+            // Login screen -> move to create account screen
+            createAccountScreen = true;
+
+            signInBtn.toggle(false);
+            signUpBtn.toggle(false);
+            loginAccountBtn.toggle(true);
+            registerBtn.toggle(true);
+
+            loginError = "";
+        }
     }
     else if (label == "Sign In") {
         if (createAccountScreen == true) {
-            // go back to login screen
+            // going back to login screen — Sign In becomes filled (right/active), Sign Up becomes outlined (left/inactive)
             createAccountScreen = false;
             emailInput = false; passwordInput = false; rePasswordInput = false;
             Email = ""; Password = ""; RePassword = "";
-            signInBtn.toggle(true); signUpBtn.toggle(true);
-            registerBtn.toggle(false); loginAccountBtn.toggle(false);
+            signInBtn.toggle(true);
+            signUpBtn.toggle(true);
+            registerBtn.toggle(false);
+            loginAccountBtn.toggle(false);
         }
         else {
-            // go to main screen
-            mainScreen = true;
-            signInBtn.toggle(false); signUpBtn.toggle(false);
-            logoutBtn.toggle(true);
-            updateFilter();
+            loginError = "";
+
+            if (Email.empty() || Password.empty())
+            {
+                loginError = "Username or password field empty";
+                return;
+            }
+
+            if (database.loginUser(Email, Password))
+            {
+                loginError = "";
+
+                mainScreen = true;
+                signUpBtn.toggle(false);
+                signInBtn.toggle(false);
+                logoutBtn.toggle(true);
+                entries = database.getEntries(database.getCurrentUserID());
+                updateFilter();
+            }
+            else
+            {
+                loginError = "Username or password incorrect";
+            }
         }
     }
-    else if (label == "Register") {
-        mainScreen = true;
-        registerBtn.toggle(false); loginAccountBtn.toggle(false);
-        logoutBtn.toggle(true);
-        updateFilter();
-    }
+    /*else if (label == "Register")
+    {
+        registerError = "";
+
+        if (Email.empty() || Password.empty() || RePassword.empty())
+        {
+            registerError = "Please fill in every field.";
+            return;
+        }
+
+        if (Password != RePassword)
+        {
+            registerError = "Passwords do not match.";
+            return;
+        }
+
+        if (database.userExists(Email))
+        {
+            registerError = "Account already exists.";
+            return;
+        }
+
+        if (database.registerUser(Email, Password))
+        {
+            mainScreen = true;
+            registerError = "";
+        }
+        else
+        {
+            registerError = "Could not create account.";
+        }
+    }*/
     else if (label == "Logout") {
         mainScreen = false;
         createAccountScreen = false;
@@ -625,25 +790,59 @@ void ofApp::buttonEvent(string& label) {
         signInBtn.toggle(true); signUpBtn.toggle(true);
         logoutBtn.toggle(false);
     }
-    else if (label == "Add") {
-        if (popupName != "App/Website Name" && popupName.size() > 0) {
+    else if (label == "Add")
+    {
+        if (popupName != "App/Website Name" && popupUser != "Username" && popupPass != "Password")
+        {
+            addError = "";
             PasswordEntry newEntry;
+
             newEntry.appName = popupName;
             newEntry.username = popupUser == "Username" ? "" : popupUser;
             newEntry.password = popupPass == "Password" ? "" : popupPass;
-            database.addEntry(newEntry);
 
-            entries = database.getEntries();
+            int userID = database.getCurrentUserID();
+
+            std::cout << "Adding entry for user ID: "
+                << userID << std::endl;
+
+            bool added = database.addEntry(userID, newEntry);
+
+            std::cout << "Entry added: "
+                << (added ? "YES" : "NO") << std::endl;
+
+            entries = database.getEntries(userID);
+
+            std::cout << "Entries loaded: "
+                << entries.size() << std::endl;
 
             passwordVisible.assign(entries.size(), false);
 
             updateFilter();
-            popupName = "App/Website Name"; popupUser = "Username"; popupPass = "Password";
+
+            popupName = "App/Website Name";
+            popupUser = "Username";
+            popupPass = "Password";
+
+            // Close the popup
+            popupOpen = false;
+
+            // Stop text input
+            popupNameInput = false;
+            popupUserInput = false;
+            popupPassInput = false;
+
+            // Hide popup buttons
+            popupConfirmBtn.toggle(false);
+            popupCancelBtn.toggle(false);
+
         }
-        popupOpen = false;
-        popupNameInput = false; popupUserInput = false; popupPassInput = false;
-        popupConfirmBtn.toggle(false);
-        popupCancelBtn.toggle(false);
+        else {
+            addError = "One or more fields empty";
+        }
+
+
+
     }
     else if (label == "Cancel") {
         popupOpen = false;

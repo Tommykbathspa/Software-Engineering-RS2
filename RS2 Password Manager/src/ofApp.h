@@ -5,8 +5,6 @@
 #include "ScrollBar.h"
 #include "Database.h"
 
-
-
 class ofApp : public ofBaseApp {
 public:
     void setup();
@@ -26,13 +24,11 @@ public:
     bool emailInput, passwordInput, rePasswordInput;
     bool createAccountScreen;
     bool mainScreen;
-
+ 
     ofRectangle cardBG;
-    ofRectangle emailBox, passwordBox, rePasswordBox, caEmailBox, caPasswordBox, caRePasswordBox;
+    ofRectangle emailBox, passwordBox, caEmailBox, caPasswordBox, caRePasswordBox;
     ofTrueTypeFont titleFont, headerFont, labelFont, smallFont;
-
-    Button signInBtn, signUpBtn;
-    Button registerBtn, loginAccountBtn;
+    Button signInBtn, signUpBtn, registerBtn, loginAccountBtn;
 
     // main screen
     string searchString;
@@ -42,6 +38,7 @@ public:
     bool popupOpen;
     string popupName, popupUser, popupPass;
     bool popupNameInput, popupUserInput, popupPassInput;
+    string loginError, registerError, addError;
     ofRectangle popupBG, popupNameBox, popupUserBox, popupPassBox;
     Button popupConfirmBtn, popupCancelBtn;
 
@@ -59,6 +56,7 @@ public:
     float scrollOffset;
     float rowHeight;
     ScrollBar scrollBar;
+
     Button logoutBtn;
 
     void drawLoginScreen();

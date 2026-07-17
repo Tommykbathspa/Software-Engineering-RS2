@@ -15,16 +15,20 @@
       "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Database.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Database.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Database.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\ScrollBar.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Button.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\ScrollBar.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Database.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Database.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -33,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|solutionrelative:src\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FD42DF7-442E-479A-BA76-D0022F99702A}|RS2 Password Manager.vcxproj|C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\PasswordEntry.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -62,16 +62,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Database.h",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Database.h",
               "RelativeDocumentMoniker": "src\\Database.h",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Database.h",
               "RelativeToolTip": "src\\Database.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-16T17:37:30.454Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-16T17:37:30.454Z"
             },
             {
               "$type": "Document",
@@ -81,26 +80,27 @@
               "RelativeDocumentMoniker": "src\\Database.cpp",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Database.cpp",
               "RelativeToolTip": "src\\Database.cpp",
-              "ViewState": "AgIAACAAAAAAAAAAAAAmwCsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAcwEEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-07-16T17:36:49.201Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "ScrollBar.cpp",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.cpp",
               "RelativeDocumentMoniker": "src\\ScrollBar.cpp",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.cpp",
               "RelativeToolTip": "src\\ScrollBar.cpp",
-              "ViewState": "AgIAABEAAAAAAAAAAAAiwCsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-15T13:37:53.433Z"
+              "WhenOpened": "2026-07-15T13:37:53.433Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ScrollBar.h",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ScrollBar.h",
               "RelativeDocumentMoniker": "src\\ScrollBar.h",
@@ -124,27 +124,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Button.h",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.h",
               "RelativeDocumentMoniker": "src\\Button.h",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.h",
               "RelativeToolTip": "src\\Button.h",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAiwBEAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-07-15T13:09:20.27Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "Button.cpp",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.cpp",
               "RelativeDocumentMoniker": "src\\Button.cpp",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\Button.cpp",
               "RelativeToolTip": "src\\Button.cpp",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAuwJ4AAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-15T13:09:08.689Z"
+              "WhenOpened": "2026-07-15T13:09:08.689Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -154,7 +155,7 @@
               "RelativeDocumentMoniker": "src\\ofApp.h",
               "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ofApp.h",
               "RelativeToolTip": "src\\ofApp.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-07-15T13:03:46.828Z",
               "EditorCaption": ""
@@ -165,16 +166,16 @@
               "Title": "ofApp.cpp",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ofApp.cpp",
               "RelativeDocumentMoniker": "src\\ofApp.cpp",
-              "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ofApp.cpp",
-              "RelativeToolTip": "src\\ofApp.cpp",
-              "ViewState": "AgIAAGcCAAAAAAAAAAAAAHgCAAApAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\ofApp.cpp*",
+              "RelativeToolTip": "src\\ofApp.cpp*",
+              "ViewState": "AgIAAKQBAAAAAAAAAAAAALsBAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-07-15T13:03:46.15Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\tommy\\OneDrive - Bath Spa University\\Software Engineering\\RS2\\Software-Engineering-RS2\\RS2 Password Manager\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
