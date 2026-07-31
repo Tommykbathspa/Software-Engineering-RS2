@@ -45,13 +45,13 @@ void ofApp::setup() {
     cardBG.set(130, 95, 1020, 565);
 
     // login input fields — just used as hit areas, drawn as underlines
-    emailBox.set(255, 315, 690, 45);
-    passwordBox.set(255, 455, 690, 45);
+    emailBox.set(255, 305, 790, 60);
+    passwordBox.set(255, 440, 790, 60);
 
     // create account screen input hit areas — fields sit higher due to extra field
-    caEmailBox.set(255, 245, 690, 45);
-    caPasswordBox.set(255, 385, 690, 45);
-    caRePasswordBox.set(255, 530, 690, 45);
+    caEmailBox.set(255, 230, 790, 60);
+    caPasswordBox.set(255, 370, 790, 60);
+    caRePasswordBox.set(255, 490, 790, 60);
 
     // login screen — Sign Up left outlined, Sign In right filled
     signUpBtn.create("Sign Up", 390, 580, 230, 58, 0xFAFAFA, &smallFont);
@@ -120,6 +120,23 @@ void ofApp::setup() {
     editCancelBtn.setTextColour(ofColor(255, 64, 160));
     editCancelBtn.setBorderColour(ofColor(255, 64, 160));
     editCancelBtn.toggle(false);
+
+    deletePopupBG.set(420, 250, 420, 200);
+
+    deleteConfirmBtn.create("Delete", 470, 390, 120, 45, 0xFF4040, &smallFont);
+    deleteConfirmBtn.setCornerRadius(22);
+    deleteConfirmBtn.toggle(false);
+
+    deleteCancelBtn.create("Abort", 670, 390, 120, 45, 0xFAFAFA, &smallFont);
+    deleteCancelBtn.setCornerRadius(22);
+    deleteCancelBtn.setTextColour(ofColor(255, 64, 160));
+    deleteCancelBtn.setBorderColour(ofColor(255, 64, 160));
+    deleteCancelBtn.toggle(false);
+
+    binIcon.load("bin.png");
+    editIcon.load("edit.png");
+    eyeOffIcon.load("eyeOff.png");
+    eyeIcon.load("eye.png");
 
     scrollBar.setup(1245, 155, 35, 565);
 
@@ -236,19 +253,19 @@ void ofApp::drawLoginScreen() {
 
         // re-enter password
         ofSetColor(60, 60, 60);
-        labelFont.drawString("Re-enter Password", 255, 465);
+        labelFont.drawString("Re-enter Password", 255, 455);
         ofSetColor(rePasswordInput ? 255 : 200, rePasswordInput ? 100 : 200, rePasswordInput ? 180 : 200);
         string displayRePass = RePassword.size() > 0 ? string(RePassword.size(), '*') : "Re-enter your Password";
-        smallFont.drawString(displayRePass, 255, 540);
+        smallFont.drawString(displayRePass, 255, 510);
         ofSetColor(255, 64, 160);
         ofSetLineWidth(2);
-        ofDrawLine(255, 553, 945, 553);
+        ofDrawLine(255, 523, 945, 523);
 
         // Register error message
         if (!registerError.empty())
         {
             ofSetColor(ofColor::red);
-            smallFont.drawString(registerError, 255, 590);
+            smallFont.drawString(registerError, 255, 555);
         }
     }
 
@@ -350,34 +367,29 @@ void ofApp::drawMainScreen() {
             smallFont.drawString(filteredEntries[i].password, 860, rowY + 50);
         }
         else {
-            string masked = string(filteredEntries[i].password.size(), '*');
-            smallFont.drawString(masked, 860, rowY + 50);
+            smallFont.drawString("********", 860, rowY + 50);
         }
 
-        // pencil icon
-        ofSetColor(120, 120, 120);
-        ofSetLineWidth(1.5);
-        ofNoFill();
-        ofDrawLine(18, rowY + 28, 30, rowY + 16);
-        ofDrawLine(30, rowY + 16, 36, rowY + 22);
-        ofDrawLine(36, rowY + 22, 24, rowY + 34);
-        ofDrawLine(24, rowY + 34, 18, rowY + 28);
-        ofDrawLine(18, rowY + 28, 15, rowY + 38);
-        ofDrawLine(15, rowY + 38, 24, rowY + 34);
-        ofFill();
+        // Edit icon
+        editIcon.draw(10, rowY + 10, 30, 30);
 
-        // eye icon
-        ofSetColor(120, 120, 120);
-        ofNoFill();
-        ofSetLineWidth(1.5);
-        ofDrawEllipse(1185, rowY + 27, 36, 20);
-        ofDrawCircle(1185, rowY + 27, 6);
-        ofFill();
+        // Eye icon
+        if (passwordVisible[entriesIndex])
+        {
+            eyeOffIcon.draw(1140, rowY + 10, 40, 40);
+        }
+        else
+        {
+            eyeIcon.draw(1140, rowY + 10, 40, 40);
+        }
+
+    // Bin icon
+        binIcon.draw(1200, rowY + 10, 30, 30);
     }
 
     ofPopMatrix();
 
-    float contentH = max((float)filteredEntries.size() * rowHeight, 1.0f);
+    float contentH = max((float)filteredEntries.size() * rowHeight + 20.0f, 1.0f);
     scrollBar.draw(contentH, 565, scrollOffset);
 
     // add popup
@@ -437,6 +449,25 @@ void ofApp::drawMainScreen() {
         smallFont.drawString(editPass, 440, 445);
         ofSetColor(255, 64, 160);
         ofDrawLine(430, 455, 850, 455);
+    }
+    if (deletePopupOpen)
+    {
+        // Darken the background
+        ofSetColor(0, 0, 0, 120);
+        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+
+        // Popup
+        ofSetColor(245);
+        ofDrawRectRounded(deletePopupBG, 10);
+
+        ofSetColor(50);
+        labelFont.drawString("Delete Password?", 505, 305);
+
+        smallFont.drawString(
+            "This action cannot be undone.",
+            470,
+            345
+        );
     }
     if (!addError.empty())
     {
@@ -586,7 +617,7 @@ void ofApp::mousePressed(int x, int y, int button) {
     }
 
     // scrollbar
-    float contentH = filteredEntries.size() * rowHeight;
+    float contentH = filteredEntries.size() * rowHeight + 20;
     scrollBar.mousePressed(x, y, contentH, 565, scrollOffset);
 
     // row interactions
@@ -596,6 +627,7 @@ void ofApp::mousePressed(int x, int y, int button) {
     if (rowIndex >= 0 && rowIndex < filteredEntries.size() && x < 1245 && y > 155) {
         ofRectangle pencilRect(5, 155 + rowIndex * rowHeight - scrollOffset + 10, 45, 45);
         ofRectangle eyeRect(1160, 155 + rowIndex * rowHeight - scrollOffset + 10, 55, 40);
+        ofRectangle binRect(1220, 155 + rowIndex * rowHeight - scrollOffset + 10, 40, 40);
 
         if (pencilRect.inside(x, y)) {
             editingRow = rowIndex;
@@ -607,17 +639,46 @@ void ofApp::mousePressed(int x, int y, int button) {
             editConfirmBtn.toggle(true);
             editCancelBtn.toggle(true);
         }
-        else if (eyeRect.inside(x, y)) {
+        else if (eyeRect.inside(x + 35, y))
+        {
             int entriesIndex = -1;
-            for (int i = 0; i < entries.size(); i++) {
-                if (entries[i].appName == filteredEntries[rowIndex].appName) {
+
+            for (int i = 0; i < entries.size(); i++)
+            {
+                if (entries[i].id == filteredEntries[rowIndex].id)
+                {
                     entriesIndex = i;
                     break;
                 }
             }
-            if (entriesIndex >= 0 && entriesIndex < passwordVisible.size()) {
+
+            if (entriesIndex >= 0 && entriesIndex < passwordVisible.size())
+            {
                 passwordVisible[entriesIndex] = !passwordVisible[entriesIndex];
             }
+        }
+        else if (binRect.inside(x + 35, y))
+        {
+            // Find the matching entry in the full entries vector
+            deleteRow = -1;
+
+            for (int i = 0; i < entries.size(); i++)
+            {
+                if (entries[i].id == filteredEntries[rowIndex].id)
+                {
+                    deleteRow = i;
+                    break;
+                }
+            }
+
+            if (deleteRow != -1)
+            {
+                deletePopupOpen = true;
+                deleteConfirmBtn.toggle(true);
+                deleteCancelBtn.toggle(true);
+            }
+
+            return;
         }
     }
 }
@@ -625,7 +686,7 @@ void ofApp::mousePressed(int x, int y, int button) {
 //--------------------------------------------------------------
 void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
     if (mainScreen == false) return;
-    float contentH = filteredEntries.size() * rowHeight;
+    float contentH = filteredEntries.size() * rowHeight + 20;
     scrollOffset -= scrollY * 20;
     scrollOffset = max(0.0f, min(scrollOffset, max(0.0f, contentH - 565)));
 }
@@ -633,7 +694,7 @@ void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button) {
     if (mainScreen == false) return;
-    float contentH = filteredEntries.size() * rowHeight;
+    float contentH = filteredEntries.size() * rowHeight + rowHeight;
     float newOffset = scrollBar.mouseDragged(x, y, contentH, 565);
     if (newOffset >= 0) scrollOffset = newOffset;
 }
@@ -844,13 +905,6 @@ void ofApp::buttonEvent(string& label) {
 
 
     }
-    else if (label == "Cancel") {
-        popupOpen = false;
-        popupNameInput = false; popupUserInput = false; popupPassInput = false;
-        popupName = "App/Website Name"; popupUser = "Username"; popupPass = "Password";
-        popupConfirmBtn.toggle(false);
-        popupCancelBtn.toggle(false);
-    }
     else if (label == "Save") {
         if (editingRow >= 0 && editingRow < filteredEntries.size()) {
             filteredEntries[editingRow].appName = editName;
@@ -875,6 +929,43 @@ void ofApp::buttonEvent(string& label) {
         editConfirmBtn.toggle(false);
         editCancelBtn.toggle(false);
     }
+    else if (label == "Delete")
+    {
+        if (deleteRow >= 0 && deleteRow < entries.size())
+        {
+            database.deleteEntry(
+                entries[deleteRow].id,
+                database.getCurrentUserID()
+            );
+
+            entries = database.getEntries(database.getCurrentUserID());
+
+            passwordVisible.assign(entries.size(), false);
+
+            updateFilter();
+        }
+
+        deletePopupOpen = false;
+        deleteRow = -1;
+
+        deleteConfirmBtn.toggle(false);
+        deleteCancelBtn.toggle(false);
+    }
+    else if (label == "Cancel") {
+        popupOpen = false;
+        popupNameInput = false; popupUserInput = false; popupPassInput = false;
+        popupName = "App/Website Name"; popupUser = "Username"; popupPass = "Password";
+        popupConfirmBtn.toggle(false);
+        popupCancelBtn.toggle(false);
+    }
+    else if (label == "Abort") {
+        deletePopupOpen = false;
+        deleteRow = -1;
+        deleteConfirmBtn.toggle(false);
+        deleteCancelBtn.toggle(false);
+    }
+        
+    
 }
 
 //--------------------------------------------------------------

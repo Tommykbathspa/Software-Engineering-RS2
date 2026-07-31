@@ -2,7 +2,9 @@
 #include <iostream>
 using namespace std;
 
-bool Database::open(std::string filename)
+const string XOR_KEY = "RS2PasswordManager";
+
+bool Database::open(string filename)
 {
     if (sqlite3_open(filename.c_str(), &db) != SQLITE_OK)
         return false;
@@ -50,10 +52,20 @@ bool Database::addEntry(int userID, const PasswordEntry& entry)
         return false;
     }
 
+    std::string encryptedPassword = xorEncrypt(entry.password);
+
+    sqlite3_bind_text(
+        stmt,
+        4,
+        encryptedPassword.c_str(),
+        -1,
+        SQLITE_TRANSIENT
+    );
+
     sqlite3_bind_int(stmt, 1, userID);
     sqlite3_bind_text(stmt, 2, entry.appName.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 3, entry.username.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 4, entry.password.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 4, encryptedPassword.c_str(), -1, SQLITE_TRANSIENT);
 
     bool success = (sqlite3_step(stmt) == SQLITE_DONE);
 
@@ -69,14 +81,14 @@ vector<PasswordEntry> Database::getEntries(int userID)
     sqlite3_stmt* stmt;
 
     const char* sql =
-        "SELECT appName, username, password "
+        "SELECT id, appName, username, password "
         "FROM passwords "
         "WHERE user_id = ?;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK)
     {
-        std::cout << "Get entries prepare failed: "
-            << sqlite3_errmsg(db) << std::endl;
+        cout << "Get entries prepare failed: "
+            << sqlite3_errmsg(db) << endl;
         return entries;
     }
 
@@ -86,14 +98,18 @@ vector<PasswordEntry> Database::getEntries(int userID)
     {
         PasswordEntry entry;
 
-        entry.appName =
-            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        entry.id = sqlite3_column_int(stmt, 0);
 
-        entry.username =
+        entry.appName =
             reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
 
-        entry.password =
+        entry.username =
             reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+
+        string encryptedPassword =
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+
+        entry.password = xorDecrypt(encryptedPassword);
 
         entries.push_back(entry);
     }
@@ -103,7 +119,7 @@ vector<PasswordEntry> Database::getEntries(int userID)
     return entries;
 }
 
-bool Database::loginUser(std::string email, std::string password)
+bool Database::loginUser(string email, string password)
 {
     sqlite3_stmt* stmt;
 
@@ -133,7 +149,7 @@ bool Database::loginUser(std::string email, std::string password)
 
     return found;
 }
-bool Database::userExists(std::string email)
+bool Database::userExists(string email)
 {
     sqlite3_stmt* stmt;
 
@@ -149,7 +165,7 @@ bool Database::userExists(std::string email)
 
     return exists;
 }
-bool Database::registerUser(std::string email, std::string password)
+bool Database::registerUser(string email, string password)
 {
     if (userExists(email))
         return false;
@@ -173,4 +189,47 @@ bool Database::registerUser(std::string email, std::string password)
 int Database::getCurrentUserID() const
 {
     return currentUserID;
+}
+
+bool Database::deleteEntry(int entryID, int userID)
+{
+    sqlite3_stmt* stmt;
+
+    const char* sql =
+        "DELETE FROM passwords "
+        "WHERE id = ? AND user_id = ?;";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK)
+    {
+        cout << "Delete prepare failed: "
+            << sqlite3_errmsg(db) << endl;
+
+        return false;
+    }
+
+    sqlite3_bind_int(stmt, 1, entryID);
+    sqlite3_bind_int(stmt, 2, userID);
+
+    bool success = (sqlite3_step(stmt) == SQLITE_DONE);
+
+    sqlite3_finalize(stmt);
+
+    return success;
+}
+string Database::xorEncrypt(const string& text)
+{
+    string result = text;
+
+    for (size_t i = 0; i < result.size(); i++)
+    {
+        result[i] ^= XOR_KEY[i % XOR_KEY.size()];
+    }
+
+    return result;
+}
+
+string Database::xorDecrypt(const string& text)
+{
+    // XOR decrypt is identical to encrypt
+    return xorEncrypt(text);
 }

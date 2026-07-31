@@ -48,6 +48,15 @@ public:
     bool editNameInput, editUserInput, editPassInput;
     ofRectangle editPopupBG, editNameBox, editUserBox, editPassBox;
     Button editConfirmBtn, editCancelBtn;
+    ofImage binIcon,editIcon,eyeIcon,eyeOffIcon;
+
+    bool deletePopupOpen = false;
+    int deleteRow = -1;
+
+    ofRectangle deletePopupBG;
+
+    Button deleteConfirmBtn;
+    Button deleteCancelBtn;
 
     vector<PasswordEntry> entries;
     vector<PasswordEntry> filteredEntries;
